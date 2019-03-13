@@ -1,11 +1,18 @@
 package org.money_transfer.service.api;
 
+import org.money_transfer.service.exception.ApiRequestValidationException;
+import org.money_transfer.service.exception.ResourceNotFoundException;
 import org.money_transfer.service.model.Account;
+import org.money_transfer.service.model.api.ResponseInvalidRequest;
 import org.money_transfer.service.repository.AccountRepository;
 
 import javax.inject.Inject;
+import javax.validation.Validator;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * @author Maksym Bondarenko
@@ -16,22 +23,38 @@ public class AccountApi {
 
     private final AccountRepository accountRepository;
 
+    private final Validator validator;
+
     @Inject
-    public AccountApi(AccountRepository accountRepository) {
+    public AccountApi(AccountRepository accountRepository, Validator validator) {
         this.accountRepository = accountRepository;
+        this.validator = validator;
     }
 
     @PUT
     @Produces(MediaType.TEXT_PLAIN)
-    public String putAccount(Account account) {
+    public Response putAccount(Account account, @Context UriInfo uriInfo) {
+        var violations = validator.validate(account);
+        if (!violations.isEmpty()) {
+            throw new ApiRequestValidationException(new ResponseInvalidRequest(violations));
+        }
         accountRepository.putAccount(account);
-        return "ok";
+        return Response
+                .created(uriInfo
+                        .getAbsolutePathBuilder()
+                        .path("/{accountNumber}")
+                        .build(account.getNumber()))
+                .build();
     }
 
     @GET
     @Path("/{accountNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public Account getAccount(@PathParam("accountNumber") Long accountNumber) {
-        return accountRepository.getAccount(accountNumber);
+        var account = accountRepository.getAccount(accountNumber);
+        if (account == null) {
+            throw new ResourceNotFoundException(accountNumber.toString());
+        }
+        return account;
     }
 }

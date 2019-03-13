@@ -2,10 +2,14 @@ package org.money_transfer.service.config;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.money_transfer.service.exception.handler.ApiRequestValidationExceptionHandler;
+import org.money_transfer.service.exception.handler.NotFoundExceptionHandler;
 import org.money_transfer.service.repository.AccountRepository;
 import org.money_transfer.service.repository.InMemoryAccountRepository;
 
 import javax.inject.Singleton;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import javax.ws.rs.ApplicationPath;
 
 /**
@@ -22,7 +26,11 @@ public class JerseyResourceConfig extends ResourceConfig {
                 bind(InMemoryAccountRepository.class)
                         .to(AccountRepository.class)
                         .in(Singleton.class);
+                bind(Validation.buildDefaultValidatorFactory().getValidator())
+                        .to(Validator.class);
             }
         });
+        register(new ApiRequestValidationExceptionHandler());
+        register(new NotFoundExceptionHandler());
     }
 }
