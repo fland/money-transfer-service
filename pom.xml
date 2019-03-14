@@ -19,6 +19,11 @@
         <jaxb.version>2.3.1</jaxb.version>
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
         <hibernate-validator.version>6.0.15.Final</hibernate-validator.version>
+        <spock.version>1.3-groovy-2.5</spock.version>
+        <cglib-nodep.version>3.2.10</cglib-nodep.version>
+        <objenesis.version>3.0.1</objenesis.version>
+        <javax.el.version>3.0.1-b09</javax.el.version>
+        <system-rules.version>1.19.0</system-rules.version>
     </properties>
 
     <dependencies>
@@ -55,12 +60,6 @@
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-            <version>${jersey.version}</version>
-        </dependency>-->
-
 
         <!-- jetty -->
         <dependency>
@@ -127,20 +126,14 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
-            <version>3.0.1-b09</version>
+            <version>${javax.el.version}</version>
         </dependency>
-
-        <!--<dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.9.8</version>
-        </dependency>-->
 
         <!-- tests-->
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
-            <version>1.2-groovy-2.5</version>
+            <version>${spock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -153,19 +146,19 @@
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
-            <version>3.2.9</version>
+            <version>${cglib-nodep.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>3.0.1</version>
+            <version>${objenesis.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.github.stefanbirkner</groupId>
             <artifactId>system-rules</artifactId>
-            <version>1.19.0</version>
+            <version>${system-rules.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -175,7 +168,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
                 <configuration>
                     <source>11</source>
                     <target>11</target>
@@ -183,9 +175,23 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.1</version>
+            </plugin>
+
+            <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>1.6.2</version>
+                <configuration>
+                    <targetBytecode>11</targetBytecode>
+                    <scripts>
+                        <script><![CDATA[
+                                // your script here
+                              ]]></script>
+                    </scripts>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -195,6 +201,7 @@
                         </goals>
                     </execution>
                 </executions>
+
                 <dependencies>
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
