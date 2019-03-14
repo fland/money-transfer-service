@@ -7,7 +7,7 @@ import lombok.Value;
  * @version 1.0 13.03.19
  */
 @Value
-public final class ResponseNotFound {
+public class ResponseNotFound {
 
     private final String message = "Requested resource not found";
 

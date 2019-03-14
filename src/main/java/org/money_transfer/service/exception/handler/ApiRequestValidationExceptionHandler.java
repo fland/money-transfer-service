@@ -2,6 +2,7 @@ package org.money_transfer.service.exception.handler;
 
 
 import org.money_transfer.service.exception.ApiRequestValidationException;
+import org.money_transfer.service.model.api.ResponseInvalidRequest;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -18,7 +19,7 @@ public class ApiRequestValidationExceptionHandler implements ExceptionMapper<Api
         return Response
                 .status(Response.Status.BAD_REQUEST)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                .entity(e.getApiResponse())
+                .entity(new ResponseInvalidRequest(e.getViolations()))
                 .build();
     }
 }

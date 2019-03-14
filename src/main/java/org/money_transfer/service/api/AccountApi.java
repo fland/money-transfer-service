@@ -3,8 +3,8 @@ package org.money_transfer.service.api;
 import org.money_transfer.service.exception.ApiRequestValidationException;
 import org.money_transfer.service.exception.ResourceNotFoundException;
 import org.money_transfer.service.model.Account;
-import org.money_transfer.service.model.api.ResponseInvalidRequest;
 import org.money_transfer.service.repository.AccountRepository;
+import org.money_transfer.service.repository.TransferStateRepository;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
@@ -22,21 +22,21 @@ import javax.ws.rs.core.UriInfo;
 public class AccountApi {
 
     private final AccountRepository accountRepository;
-
     private final Validator validator;
 
     @Inject
-    public AccountApi(AccountRepository accountRepository, Validator validator) {
+    public AccountApi(AccountRepository accountRepository, TransferStateRepository transferStateRepository,
+                      Validator validator) {
         this.accountRepository = accountRepository;
         this.validator = validator;
     }
 
     @PUT
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response putAccount(Account account, @Context UriInfo uriInfo) {
         var violations = validator.validate(account);
         if (!violations.isEmpty()) {
-            throw new ApiRequestValidationException(new ResponseInvalidRequest(violations));
+            throw new ApiRequestValidationException(violations);
         }
         accountRepository.putAccount(account);
         return Response

@@ -2,7 +2,9 @@ package org.money_transfer.service.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.money_transfer.service.model.api.ResponseInvalidRequest;
+
+import javax.validation.ConstraintViolation;
+import java.util.Set;
 
 /**
  * @author Maksym Bondarenko
@@ -12,6 +14,5 @@ import org.money_transfer.service.model.api.ResponseInvalidRequest;
 @RequiredArgsConstructor
 public final class ApiRequestValidationException extends RuntimeException {
 
-    private final ResponseInvalidRequest apiResponse;
-
+    private final Set<? extends ConstraintViolation<?>> violations;
 }

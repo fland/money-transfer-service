@@ -22,7 +22,7 @@ public final class ResponseInvalidRequest {
 
     private final Map<String, String> invalidParameters;
 
-    public <T> ResponseInvalidRequest(Set<ConstraintViolation<T>> violations) {
+    public ResponseInvalidRequest(Set<? extends ConstraintViolation<?>> violations) {
         invalidParameters = new HashMap<>();
         violations.forEach(i -> invalidParameters.put(i.getPropertyPath().toString(), i.getMessage()));
     }
