@@ -4,6 +4,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.money_transfer.service.exception.handler.ApiRequestValidationExceptionHandler;
+import org.money_transfer.service.exception.handler.DuplicatedResourceExceptionHandler;
 import org.money_transfer.service.exception.handler.NotFoundExceptionHandler;
 import org.money_transfer.service.repository.AccountRepository;
 import org.money_transfer.service.repository.InMemoryAccountRepository;
@@ -46,6 +47,7 @@ public class JerseyResourceConfig extends ResourceConfig {
         });
         register(new ApiRequestValidationExceptionHandler());
         register(new NotFoundExceptionHandler());
+        register(new DuplicatedResourceExceptionHandler());
         register(new JacksonFeature());
     }
 }

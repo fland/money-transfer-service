@@ -11,4 +11,6 @@ public interface AccountRepository {
     void putAccount(Account account);
 
     Account getAccount(long accountNumber);
+
+    boolean isPresent(long accountNumber);
 }

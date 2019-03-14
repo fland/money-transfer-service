@@ -29,4 +29,9 @@ public class InMemoryAccountRepository implements AccountRepository {
     public Account getAccount(long accountNumber) {
         return accounts.get(accountNumber);
     }
+
+    @Override
+    public boolean isPresent(long accountNumber) {
+        return accounts.containsKey(accountNumber);
+    }
 }

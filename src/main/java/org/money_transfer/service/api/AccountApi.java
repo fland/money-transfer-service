@@ -1,6 +1,7 @@
 package org.money_transfer.service.api;
 
 import org.money_transfer.service.exception.ApiRequestValidationException;
+import org.money_transfer.service.exception.DuplicatedResourceException;
 import org.money_transfer.service.exception.ResourceNotFoundException;
 import org.money_transfer.service.model.Account;
 import org.money_transfer.service.repository.AccountRepository;
@@ -29,12 +30,15 @@ public class AccountApi {
         this.validator = validator;
     }
 
-    @PUT
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response putAccount(Account account, @Context UriInfo uriInfo) {
+    public Response creatAccount(Account account, @Context UriInfo uriInfo) {
         var violations = validator.validate(account);
         if (!violations.isEmpty()) {
             throw new ApiRequestValidationException(violations);
+        }
+        if (accountRepository.isPresent(account.getNumber())) {
+            throw new DuplicatedResourceException(account.getNumber().toString());
         }
         accountRepository.putAccount(account);
         return Response
