@@ -24,7 +24,7 @@ public class ProcessorApi {
 
     @GET
     @Path("/start")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String startProcessing() {
         queueProcessor.start();
         return "OK";
@@ -32,7 +32,7 @@ public class ProcessorApi {
 
     @GET
     @Path("/stop")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String stopProcessing() {
         queueProcessor.stop();
         return "OK";

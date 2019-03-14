@@ -18,14 +18,14 @@ import static org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS;
  * @version 1.0 12.03.19
  */
 @Slf4j
-public class MoneyTransferService {
+class MoneyTransferService {
 
     private final int serverPort = Config.SERVER_PORT;
 
-    public void start() {
-        int maxThreads = 100;
-        int minThreads = 10;
-        int idleTimeout = 120;
+    void start() {
+        var maxThreads = 100;
+        var minThreads = 10;
+        var idleTimeout = 120;
 
         var threadPool = new QueuedThreadPool(maxThreads, minThreads, idleTimeout);
         var server = new Server(threadPool);

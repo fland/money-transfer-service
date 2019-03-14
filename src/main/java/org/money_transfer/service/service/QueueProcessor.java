@@ -8,7 +8,6 @@ import org.money_transfer.service.repository.TransferStateRepository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,7 +70,7 @@ public class QueueProcessor {
                     putFailedState(transferState);
                     return;
                 }
-                BigDecimal adoptedAmount = transferState.getAmount().setScale(2, RoundingMode.DOWN);
+                var adoptedAmount = transferState.getAmount().setScale(2, RoundingMode.DOWN);
                 if (sourceAccount.getBalance().compareTo(adoptedAmount) <= -1) {
                     log.warn("Not sufficient funds {} on account {} while processing state {} with amount {}, marking failed",
                             sourceAccount.getBalance(), transferState.getSourceAccount(), transferState.getUuid(), transferState.getAmount());

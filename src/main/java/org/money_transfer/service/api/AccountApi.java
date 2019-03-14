@@ -4,7 +4,6 @@ import org.money_transfer.service.exception.ApiRequestValidationException;
 import org.money_transfer.service.exception.ResourceNotFoundException;
 import org.money_transfer.service.model.Account;
 import org.money_transfer.service.repository.AccountRepository;
-import org.money_transfer.service.repository.TransferStateRepository;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
@@ -25,8 +24,7 @@ public class AccountApi {
     private final Validator validator;
 
     @Inject
-    public AccountApi(AccountRepository accountRepository, TransferStateRepository transferStateRepository,
-                      Validator validator) {
+    public AccountApi(AccountRepository accountRepository, Validator validator) {
         this.accountRepository = accountRepository;
         this.validator = validator;
     }
