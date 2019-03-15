@@ -2,6 +2,7 @@ package org.money_transfer.service.model.api;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 import javax.validation.ConstraintViolation;
@@ -22,7 +23,7 @@ public final class ResponseInvalidRequest {
 
     private final Map<String, String> invalidParameters;
 
-    public ResponseInvalidRequest(Set<? extends ConstraintViolation<?>> violations) {
+    public ResponseInvalidRequest(@NonNull Set<? extends ConstraintViolation<?>> violations) {
         invalidParameters = new HashMap<>();
         violations.forEach(i -> invalidParameters.put(i.getPropertyPath().toString(), i.getMessage()));
     }
