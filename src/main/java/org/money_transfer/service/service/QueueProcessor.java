@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Singleton
 @Slf4j
+//TODO: should be extracted as a separate micro-service
 public class QueueProcessor {
 
     private final ExecutorService executorService;

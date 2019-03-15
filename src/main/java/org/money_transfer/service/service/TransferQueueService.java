@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @version 1.0 14.03.19
  */
 @Singleton
+//TODO: proper queue service(AWS SQS, JMS, ActiveMQ, etc.) should be used
 public class TransferQueueService {
 
     private final ConcurrentLinkedQueue<String> transactions;
