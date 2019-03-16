@@ -7,6 +7,7 @@ import org.money_transfer.service.model.TransferState;
 import org.money_transfer.service.repository.AccountRepository;
 import org.money_transfer.service.repository.TransferStateRepository;
 import org.money_transfer.service.service.TransferQueueService;
+import org.money_transfer.service.service.TransferUuidProvider;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
@@ -14,7 +15,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * @author Maksym Bondarenko
@@ -27,14 +27,16 @@ public class TransferApi {
     private final TransferQueueService transferQueueService;
     private final TransferStateRepository transferStateRepository;
     private final Validator validator;
+    private final TransferUuidProvider transferUuidProvider;
 
     @Inject
     TransferApi(AccountRepository accountRepository, TransferQueueService transferQueueService,
-                TransferStateRepository transferStateRepository, Validator validator) {
+                TransferStateRepository transferStateRepository, Validator validator, TransferUuidProvider transferUuidProvider) {
         this.accountRepository = accountRepository;
         this.transferQueueService = transferQueueService;
         this.transferStateRepository = transferStateRepository;
         this.validator = validator;
+        this.transferUuidProvider = transferUuidProvider;
     }
 
     @POST
@@ -58,7 +60,7 @@ public class TransferApi {
                 .sourceAccount(transfer.getSourceAccount())
                 .destinationAccount(transfer.getDestinationAccount())
                 .amount(transfer.getAmount())
-                .uuid(UUID.randomUUID().toString())
+                .uuid(transferUuidProvider.provideUuid())
                 .build();
         transferStateRepository.putState(transferState);
         transferQueueService.put(transferState.getUuid());

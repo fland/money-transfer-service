@@ -12,6 +12,7 @@ import org.money_transfer.service.repository.InMemoryTransferStateRepository;
 import org.money_transfer.service.repository.TransferStateRepository;
 import org.money_transfer.service.service.QueueProcessor;
 import org.money_transfer.service.service.TransferQueueService;
+import org.money_transfer.service.service.TransferUuidProvider;
 
 import javax.inject.Singleton;
 import javax.validation.Validation;
@@ -42,6 +43,9 @@ public class JerseyResourceConfig extends ResourceConfig {
                         .in(Singleton.class);
                 bind(TransferQueueService.class)
                         .to(TransferQueueService.class)
+                        .in(Singleton.class);
+                bind(TransferUuidProvider.class)
+                        .to(TransferUuidProvider.class)
                         .in(Singleton.class);
             }
         });
