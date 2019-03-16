@@ -29,8 +29,8 @@ public class TransferApi {
     private final Validator validator;
 
     @Inject
-    public TransferApi(AccountRepository accountRepository, TransferQueueService transferQueueService,
-                       TransferStateRepository transferStateRepository, Validator validator) {
+    TransferApi(AccountRepository accountRepository, TransferQueueService transferQueueService,
+                TransferStateRepository transferStateRepository, Validator validator) {
         this.accountRepository = accountRepository;
         this.transferQueueService = transferQueueService;
         this.transferStateRepository = transferStateRepository;

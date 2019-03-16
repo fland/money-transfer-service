@@ -18,7 +18,7 @@ public class ProcessorApi {
     private final QueueProcessor queueProcessor;
 
     @Inject
-    public ProcessorApi(QueueProcessor queueProcessor) {
+    ProcessorApi(QueueProcessor queueProcessor) {
         this.queueProcessor = queueProcessor;
     }
 

@@ -25,7 +25,7 @@ public class AccountApi {
     private final Validator validator;
 
     @Inject
-    public AccountApi(AccountRepository accountRepository, Validator validator) {
+    AccountApi(AccountRepository accountRepository, Validator validator) {
         this.accountRepository = accountRepository;
         this.validator = validator;
     }
