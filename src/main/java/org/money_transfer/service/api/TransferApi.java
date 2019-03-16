@@ -67,6 +67,7 @@ public class TransferApi {
 
         return Response
                 .accepted()
+                .entity(transferState)
                 .build();
     }
 
@@ -75,5 +76,12 @@ public class TransferApi {
     @Produces(MediaType.APPLICATION_JSON)
     public Set<TransferState> getTransfersByAccount(@PathParam("accountNumber") Long accountNumber) {
         return transferStateRepository.getStatesByAccount(accountNumber);
+    }
+
+    @GET
+    @Path("/{transferUuid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public TransferState getTransfer(@PathParam("transferUuid") String transferUuid) {
+        return transferStateRepository.getState(transferUuid);
     }
 }
