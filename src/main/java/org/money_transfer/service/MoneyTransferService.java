@@ -22,7 +22,7 @@ class MoneyTransferService {
 
     private final int serverPort = Config.SERVER_PORT;
 
-    void start() {
+    Server start() {
         var maxThreads = 100;
         var minThreads = 10;
         var idleTimeout = 120;
@@ -51,12 +51,12 @@ class MoneyTransferService {
 
         try {
             server.start();
-            server.join();
         } catch (Exception e) {
             log.error("Exception: " + e, e);
-        } finally {
             server.destroy();
+            System.exit(1);
         }
 
+        return server;
     }
 }

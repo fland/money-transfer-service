@@ -14,6 +14,7 @@ public class Main {
         log.info("Hello world!");
 
         MoneyTransferService service = new MoneyTransferService();
-        service.start();
+        var server = service.start();
+        log.info("Service started...");
     }
 }
